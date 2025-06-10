@@ -28,16 +28,16 @@ jobs:
         push: true
         tags: bharathmaddala/flask-devops-app:latest
 
-    - name: Deploy to Kubernetes (via SSH)
+    - name: Deploy to EC2 using SSH
       uses: appleboy/ssh-action@v1.0.0
       with:
-        host: ${{ secrets.VM_HOST }}
-        username: ${{ secrets.VM_USER }}
-        key: ${{ secrets.SSH_KEY }}
+        host: ${{ secrets.EC2_HOST }}         
+        username: ubuntu
+        key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          cd /home/ubuntu
-          kubectl apply -f k8s-deployment.yaml
-          kubectl apply -f k8s-service.yaml
-          kubectl rollout restart deployment/flask-app
-          kubectl rollout status deployment/flask-app
-          kubectl get pods
+         cd /home/ubuntu
+         kubectl apply -f k8s-deployment.yaml
+         kubectl apply -f k8s-service.yaml
+         kubectl rollout restart deployment/flask-app
+         kubectl rollout status deployment/flask-app
+         kubectl get pods
